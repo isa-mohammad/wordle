@@ -1,0 +1,228 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100svh;
+  background: #121213;
+  color: #fff;
+  font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
+  user-select: none;
+}
+
+/* ── Header ── */
+.header {
+  width: 100%;
+  border-bottom: 1px solid #3a3a3c;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 0;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.25rem;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+/* ── Toast message ── */
+.message {
+  position: fixed;
+  top: 72px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  color: #121213;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  z-index: 100;
+  pointer-events: none;
+  animation: fadeInDown 0.15s ease;
+  white-space: nowrap;
+}
+
+/* ── Board ── */
+.board {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 24px 0 16px;
+}
+
+.row {
+  display: flex;
+  gap: 5px;
+  perspective: 300px;
+}
+
+.row.shake {
+  animation: shake 0.5s ease;
+}
+
+/* ── Cells ── */
+.cell {
+  width: 62px;
+  height: 62px;
+  border: 2px solid #3a3a3c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #fff;
+  transition: border-color 0.05s;
+}
+
+/* Letter typed into active row */
+.cell.filled {
+  border-color: #565758;
+  animation: pop 0.08s ease;
+}
+
+/* Revealed states — flip in from edge-on */
+.cell.correct,
+.cell.present,
+.cell.absent {
+  animation: reveal 0.4s ease-in-out both;
+  border-color: transparent;
+}
+
+.cell.correct {
+  background: #538d4e;
+}
+
+.cell.present {
+  background: #b59f3b;
+}
+
+.cell.absent {
+  background: #3a3a3c;
+}
+
+/* ── Keyboard ── */
+.keyboard {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 8px 24px;
+  width: 100%;
+  max-width: 500px;
+}
+
+.keyboard-row {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+
+.key {
+  height: 58px;
+  min-width: 43px;
+  border-radius: 4px;
+  border: none;
+  background: #818384;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.8rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  padding: 0 6px;
+  transition: background 0.3s, filter 0.1s;
+}
+
+.key.wide {
+  min-width: 65px;
+  font-size: 0.72rem;
+}
+
+.key.correct {
+  background: #538d4e;
+}
+
+.key.present {
+  background: #b59f3b;
+}
+
+.key.absent {
+  background: #3a3a3c;
+}
+
+.key:hover {
+  filter: brightness(1.2);
+}
+
+.key:active {
+  filter: brightness(0.9);
+}
+
+/* ── New game button ── */
+.new-game-btn {
+  margin: 8px 0 24px;
+  padding: 14px 28px;
+  background: #538d4e;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.05rem;
+  transition: filter 0.15s;
+}
+
+.new-game-btn:hover {
+  filter: brightness(1.15);
+}
+
+/* ── Animations ── */
+
+/* Cell flip-in reveal (color already set by class, starts edge-on) */
+@keyframes reveal {
+  from {
+    transform: rotateX(90deg);
+  }
+  to {
+    transform: rotateX(0deg);
+  }
+}
+
+/* Active cell pop when letter typed */
+@keyframes pop {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+
+/* Row shake for invalid guesses */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  15%       { transform: translateX(-5px); }
+  35%       { transform: translateX(5px); }
+  55%       { transform: translateX(-4px); }
+  75%       { transform: translateX(4px); }
+  90%       { transform: translateX(-2px); }
+}
+
+/* Toast slide-in */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
